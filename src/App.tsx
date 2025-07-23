@@ -3,6 +3,7 @@ import HomePage from "./pages/home/HomePage";
 import AuthCallbackPage from "./pages/auth-callback/AuthCallbackPage";
 import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react";
 
+
 export default function App() {
   return (
     <>
@@ -12,6 +13,7 @@ export default function App() {
           path="/sso-callback"
           element={<AuthenticateWithRedirectCallback />}
         />
+
 
         <Route path="auth-callback" element={<AuthCallbackPage />}></Route>
       </Routes>
