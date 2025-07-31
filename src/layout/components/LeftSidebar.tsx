@@ -7,18 +7,15 @@ import { useEffect } from "react";
 
 const LeftSidebar = () => {
 
-  const { songs, albums, fetchAlbums, isLoading } = useMusicStore((state) => ({
-    songs: state.songs,
-    albums: state.albums,
-    fetchAlbums: state.fetchAlbums,
-    isLoading: state.isLoading,
-  }));
+ const albums = useMusicStore((state) => state.albums);
+const fetchAlbums = useMusicStore((state) => state.fetchAlbums);
+const isLoading = useMusicStore((state) => state.isLoading);
 
   useEffect(()=> {
     fetchAlbums()
   },[])
 
-  console.log({albums})
+  //console.log({albums})
 
   return (
     <div className="h-full flex flex-col gap-2 px-2 py-4 w-[250px] bg-black border-r border-zinc-800">
@@ -48,7 +45,26 @@ const LeftSidebar = () => {
           <div className="space-y-2">
            {isLoading? (
             <PlaylistSkeleton/>
-           ) :("some mussic")}
+           ) :(
+           albums.map((album) => (
+            <Link
+            to={`/albums/${album._id}`}
+            key = {album._id}
+            className="p-2 hover:bg-zinc-800 rounded-md flex items-center gap-3 group cursor-pointer"
+            >
+              <img 
+              src={album.imageUrl}
+              alt="Playlist img"
+              className="size-12 rounded-md flex-shrink-0 object-cover"
+              />
+              <div className="flex-1 min-w-0 hidden md:block">
+                <p className="font-medium truncate">{album.title}</p>
+                <p className="text-sm text-zinc-400 truncate">{album.artist}</p>
+              </div>
+            </Link>
+           ))
+
+           )}
           </div>
         </ScrollArea>
       </div>
