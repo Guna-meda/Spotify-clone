@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMusicStore } from "@/store/useMusicStore"
+import { usePlayerStore } from "@/store/usePlayerStore";
 import { Clock, Pause, Play } from "lucide-react";
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
@@ -18,12 +19,33 @@ const AlbumPage = () => {
   const fetchAlbumById = useMusicStore((state) => state.fetchAlbumById)
   const currentAlbum = useMusicStore((state)=> state.currentAlbum)
   const isLoading = useMusicStore((state) => state.isLoading)
+	  const currentSong = usePlayerStore((state) => state.currentSong)
+	  const isPlaying = usePlayerStore((state) => state.isPlaying)
+		const playAlbum = usePlayerStore((state)=> state.playAlbum)
+		const togglePlay = usePlayerStore((state)=> state.togglePlay)
 
-   if (isLoading) return null;
 
    useEffect(() => {
     if(albumId) fetchAlbumById(albumId)
    },[fetchAlbumById,albumId])
+
+	 if (isLoading) return null;
+
+	 const handlePlaySong = (index:number) => {
+		if(!currentAlbum) return
+		playAlbum(currentAlbum?.songs , index)
+	 }
+
+	 const handlePlayAlbum = () => {
+		if(!currentAlbum) return;
+	  if(!currentSong) return;
+
+		const isCurrentAlbumPlaying = currentAlbum?.songs.some(song => song._id === currentSong._id)
+		if(isCurrentAlbumPlaying) togglePlay();
+		else {
+			playAlbum(currentAlbum?.songs , 0)
+		}
+	 }
 
   return (
    <div className='h-full'>

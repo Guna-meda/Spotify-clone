@@ -9,13 +9,13 @@ interface PlayerStore {
 
   initializeQueue: (songs: Song[]) => void;
   playAlbum: (songs:Song[],startIndex?: number) => void;
-  setCurrentSong: (song:song|null) => void;
+  setCurrentSong: (song:Song|null) => void;
   togglePlay: () => void;
   playNext: () => void;
   playPrevious: ()=> void;
 }
 
-const usePlayerStore = create<PlayerStore>((set,get)=> ({
+export const usePlayerStore = create<PlayerStore>((set,get)=> ({
     currentSong: null,
   isPlaying:false,
     queue : [],
@@ -53,7 +53,43 @@ const usePlayerStore = create<PlayerStore>((set,get)=> ({
     })
   },
 
-togglePlay: () => {}, 
-  playNext: () => {},
-  playPrevious: ()=> {},
+togglePlay: () => {
+  const willStartPlaying = !get().isPlaying;
+  set({
+    isPlaying: willStartPlaying,
+  })
+}, 
+  playNext: () => {
+    const {currentIndex , queue} = get()
+    const nextIndex = currentIndex + 1
+
+    if(nextIndex < queue.length) {
+      const nextSong = queue[nextIndex]
+      set({
+        currentSong:nextSong,
+        currentIndex:nextIndex,
+        isPlaying:true,
+      })
+    } else {
+      set({
+        isPlaying:false
+      })
+    }
+  },
+
+  playPrevious: ()=> {
+    const {currentIndex , queue} = get();
+    const prevIndex = currentIndex- 1
+
+    if(prevIndex >=0) {
+      const prevSong = queue[prevIndex];
+      set ({
+        currentSong: prevSong,
+        currentIndex:prevIndex,
+        isPlaying:true,
+      })
+    }else{
+      set({isPlaying:false})
+    }
+  },
 }))
