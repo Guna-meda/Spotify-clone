@@ -1,5 +1,7 @@
 import axios from "axios"
 
 export const axiosInstance = axios.create({
-  baseURL:"http://localhost:3002/api/v1"
+baseURL: import.meta.env.VITE_BACKEND_URL
 })
+
+console.log("Backend URL =>", import.meta.env.VITE_BACKEND_URL);
