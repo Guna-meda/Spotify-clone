@@ -21,6 +21,8 @@ interface MusicStore {
   fetchTrendingSongs: () => Promise<void>;
   fetchSongs: () => Promise<void>;
   fetchStats: () => Promise<void>;
+  deleteSong: (id:string) => Promise<void>;
+  deleteAlbum: (id:string) => Promise<void>;
 }
 
 export const useMusicStore = create<MusicStore>((set) => ({
@@ -37,6 +39,39 @@ export const useMusicStore = create<MusicStore>((set) => ({
     totalAlbums: 0,
     totalUsers: 0,
     totalArtists: 0,
+  },
+
+  deleteAlbum: async(id) => {
+   set({ isLoading: true, error: null });
+   try {
+    await axiosInstance.delete(`/admin/album/${id}`);
+    set((state) => ({
+      albums: state.albums.filter(album => album._id !== id),
+     
+     songs: state.songs.map(song =>
+  song.albumId === id ? { ...song, albumId: null } : song
+)
+
+    }));
+   } catch (error: any) {
+    set({ error: error.response?.data?.message || "Failed to delete album" });
+   } finally {
+    set({ isLoading: false });
+   }
+  },
+
+  deleteSong: async(id) => {
+   set({ isLoading: true, error: null });
+   try {
+    await axiosInstance.delete(`/admin/song/${id}`);
+    set(state => ({
+songs: state.songs.filter(song => song._id !== id)
+    }));
+   } catch (error: any) {
+    set({ error: error.response?.data?.message || "Failed to delete song" });
+   } finally {
+    set({ isLoading: false });
+   }
   },
 
   fetchSongs: async () => {

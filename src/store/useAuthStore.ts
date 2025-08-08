@@ -18,10 +18,14 @@ export const useAuthStore = create <AuthStore> ((set) => ({
   checkAdminStatus : async () => {
     set({isLoading:true , error:null})
     try {
-      const response = await axiosInstance.get("/admin/check")
+const response = await axiosInstance.get<{ admin: boolean }>("/admin/check");
+      console.log("Admin check response", response.data);
       set({isAdmin:response.data.admin})
     } catch (error:any) {
-      set({isAdmin:false , error:error.response.data.message})
+       set({
+    isAdmin: false,
+    error: error?.response?.data?.message || "An unexpected error occurred",
+  });
     }finally {
       set({isLoading:false})
     }
