@@ -15,7 +15,7 @@ export default function App() {
           path="/sso-callback"
           element={<AuthenticateWithRedirectCallback />}
         />
-        <Route path="auth-callback" element={<AuthCallbackPage />}/>
+        <Route path="/auth-callback" element={<AuthCallbackPage />}/>
         <Route path="/admin" element={<AdminPage/>} />
 
         <Route element={<MainLayout />}>
