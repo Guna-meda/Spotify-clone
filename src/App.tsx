@@ -4,7 +4,7 @@ import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react";
 
 import MainLayout from "./layout/MainLayout";
 import HomePage from "./pages/home/HomePage";
-import ChatPage from "./pages/ChatPage";
+import ChatPage from "./pages/chat/ChatPage";
 import AlbumPage from "./pages/album/AlbumPage";
 import AdminPage from "./pages/admin/AdminPage";
 import AuthCallbackPage from "./pages/auth-callback/AuthCallbackPage";

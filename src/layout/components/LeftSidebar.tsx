@@ -25,7 +25,7 @@ const isLoading = useMusicStore((state) => state.isLoading);
           <Home className="size-5" />
           <span className="hidden md:inline">Home</span>
         </Link>
-        <Link to="/messages" className="flex items-center gap-2 text-white w-full hover:bg-zinc-800 px-3 py-2 rounded-md">
+        <Link to="/chat" className="flex items-center gap-2 text-white w-full hover:bg-zinc-800 px-3 py-2 rounded-md">
           <MessageCircle className="size-5" />
           <span className="hidden md:inline">Messages</span>
         </Link>
